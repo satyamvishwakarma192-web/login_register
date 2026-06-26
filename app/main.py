@@ -38,6 +38,32 @@ def main():
                 }
             }
         }],
+        "tools_call": [
+            {
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_abc123",
+            "type": "function",
+            "function": {
+              "name": "Read",
+              "arguments": "{\"file_path\": \"/path/to/file.txt\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ]
+}
+
+        ]
+
         }
 
     request = urllib.request.Request(
@@ -70,6 +96,12 @@ def main():
         content = choices[0].get("text", "")
 
     print(content)
+
+    for tc in chat.choices[0].message.tool_calls or []:
+        args = json.loads(tc.function.arguments)
+        if tc.function.name == "Read":
+            with open(args["file_path"]) as f:
+                print(f.read())
 
 
 if __name__ == "__main__":
