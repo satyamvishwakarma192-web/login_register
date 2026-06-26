@@ -37,7 +37,7 @@ def main():
                 },
                 "required": ["file_path"]
             }}}],
-        tools_calls=[
+        tool_calls=[
             {
   "choices": [
     {
