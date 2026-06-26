@@ -3,7 +3,13 @@ import json
 import os
 import sys
 
-from openai import OpenAI
+try:
+  from openai import OpenAI
+except Exception:
+  # Provide a clearer error if the openai package isn't installed or import fails
+  raise RuntimeError(
+    "The 'openai' package is required but could not be imported. Install it with 'pip install openai'."
+  )
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 BASE_URL = os.getenv("OPENROUTER_BASE_URL", default="https://openrouter.ai/api/v1")
